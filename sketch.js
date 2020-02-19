@@ -1,7 +1,8 @@
 var pipes = []; // array of objects
+var popSound;
 
-function preload(){
-  popSound = loadSound("sounds/Blop-Mark_DiAngelo-79054334");
+function preload() {
+  popSound = loadSound("sounds/Blop-Mark_DiAngelo-79054334.mp3");
 }
 
 
