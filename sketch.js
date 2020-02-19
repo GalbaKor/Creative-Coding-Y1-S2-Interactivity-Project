@@ -25,6 +25,7 @@ function mousePressed() {                                   // if mouse is press
   for (let i = pipes.length - 1; i >= 0; i--) {             // -remove that specific object from the array
     if (pipes[i].contains(mouseX, mouseY)) {
       pipes.splice(i, 1);
+      popSound.play();
     }
   }
 }
