@@ -3,7 +3,7 @@ html, body {
   }
   
   body {
-    margin: 0;
+    margin: 0px;
     display: flex;
   
     /* centers the sketch horizontally */
@@ -146,4 +146,52 @@ button {
     border-radius: 50%;
     background: blue;
     cursor: pointer;
+  }
+
+  @media only screen and (max-width: 1440px){  
+    #slidercontainer{
+        grid-row: 5;
+        grid-column-start: 4;
+        grid-column-end: 10;
+    
+        display: grid;
+        grid-template-rows: 1fr 1fr 1fr;
+        justify-items: center;
+        align-items: center;
+    }
+    #r{
+        grid-row: 1;
+        margin: 15px;
+    }
+    #g{
+        grid-row: 2;
+        margin: 15px;
+    }
+    #b{
+        grid-row: 3;
+        margin: 15px;
+    }
+  }
+
+  @media only screen and (max-width: 768px){
+    body{
+        margin-top: 50px;
+    }
+  }
+  @media only screen and (max-width: 425px){
+    body{
+        margin-top: 60px;
+    }
+    #addition {
+        background-color: #4CAF50;
+        grid-row: 4;
+        grid-column-start: 3;
+        grid-column-end: 6;
+    }
+    #subtraction {
+        background-color: #f44336;
+        grid-row: 4;
+        grid-column-start: 8;
+        grid-column-end: 11;
+    }
   }

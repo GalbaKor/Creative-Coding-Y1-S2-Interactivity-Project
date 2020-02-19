@@ -25,7 +25,7 @@ function setup() {
 }
 
 function add() {                                            // add function - initiates a variable called plusone.
-  var plusone = new Pipe();                                 // plusone adds a new Pipe class.
+  var plusone = new Pipe(0,0);                                 // plusone adds a new Pipe class.
   pipes.push(plusone);                                      // pushes the new Pipe class into the pipes array.
 }
 function subtract() {                                       // subtract funtion - removes the latest addition to the array with pop
