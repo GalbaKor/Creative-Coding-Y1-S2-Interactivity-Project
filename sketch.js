@@ -1,5 +1,10 @@
 var pipes = []; // array of objects
 
+function preload(){
+  popSound = loadSound("sounds/Blop-Mark_DiAngelo-79054334");
+}
+
+
 function setup() {
   var cnv = createCanvas(windowWidth/1.75, windowHeight/1.75);   // puts canvas function as a variable.
   cnv.style('display', 'block');                           // prevents scrollbars from appearing when size changes.
@@ -13,6 +18,13 @@ function add() {                                            // add function - in
 }
 function subtract() {                                       // subtract funtion - removes the latest addition to the array with pop
   pipes.pop();
+}
+function mousePressed() {                                   // if mouse is pressed and if one of the objects contains the mouse when it is pressed-
+  for (let i = pipes.length - 1; i >= 0; i--) {             // -remove that specific object from the array
+    if (pipes[i].contains(mouseX, mouseY)) {
+      pipes.splice(i, 1);
+    }
+  }
 }
 
 function windowResized() {                                  // when window is resized, the canvas is resized with it.
@@ -32,7 +44,6 @@ function draw() {
 
 // Pipe class
 class Pipe {
-
   constructor(startX, startY){
 		this.pos = createVector(startX, startY)
 		this.r = 10;
@@ -41,7 +52,16 @@ class Pipe {
 		this.yVel = random(0.5,2.5);*/
 		this.acc = createVector(0,0);
     this.mass = 2;
-	}
+  }
+  
+  contains(px, py) {
+    let d = dist(px, py, this.pos.x, this.pos.y);
+    if (d < this.r) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
 	applyForce(force){
 		let f = p5.Vector.div(force, this.mass);	
