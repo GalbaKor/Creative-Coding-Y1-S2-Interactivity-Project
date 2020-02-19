@@ -3,7 +3,7 @@ var pipes = []; // array of objects
 
 
 function setup() {
-  var cnv = createCanvas(windowWidth/2, windowHeight/2);   // puts canvas function as a variable.
+  var cnv = createCanvas(windowWidth/1.75, windowHeight/1.75);   // puts canvas function as a variable.
   cnv.style('display', 'block');                           // prevents scrollbars from appearing when size changes.
   cnv.parent('canvasholder')
   noFill();
@@ -33,7 +33,7 @@ function subtract() {                                       // subtract funtion 
 }
 
 function windowResized() {                                  // when window is resized, the canvas is resized with it.
-  resizeCanvas(windowWidth/2, windowHeight/2);
+  resizeCanvas(windowWidth/1.75, windowHeight/1.75);
 }
 
 function draw() {
