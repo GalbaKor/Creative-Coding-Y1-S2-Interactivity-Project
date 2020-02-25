@@ -182,6 +182,11 @@ button {
       grid-column-start: 1;
       grid-column-end: 12;
   }
+  h1 {
+    grid-row: 1;
+    grid-column-start: 3;
+    grid-column-end: 11;
+}
   }
   @media only screen and (max-width: 425px){
     body{
@@ -199,6 +204,11 @@ button {
         grid-column-start: 8;
         grid-column-end: 11;
     }
+    h1 {
+      grid-row: 1;
+      grid-column-start: 1;
+      grid-column-end: 12;
+  }
   }
 
   @media only screen and (max-width: 425px){
