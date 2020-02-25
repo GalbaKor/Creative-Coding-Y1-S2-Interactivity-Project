@@ -183,6 +183,9 @@ button {
       grid-column-start: 1;
       grid-column-end: 12;
   }
+  .p5Canvas {
+    width:auto;
+   }
   h1 {
     grid-row: 1;
     grid-column-start: 3;
