@@ -180,7 +180,7 @@ button {
   }
   @media only screen and (max-width: 425px){
     body{
-        margin-top: 60px;
+        margin-top: 80px;
     }
     #addition {
         background-color: #4CAF50;
@@ -193,5 +193,11 @@ button {
         grid-row: 4;
         grid-column-start: 8;
         grid-column-end: 11;
+    }
+  }
+
+  @media only screen and (max-width: 425px){
+    body{
+        margin-top: 100px;
     }
   }
