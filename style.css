@@ -178,6 +178,7 @@ button {
         margin-top: 50px;
     }
     #canvasholder {
+      width: auto;
       grid-row: 3;
       grid-column-start: 1;
       grid-column-end: 12;
