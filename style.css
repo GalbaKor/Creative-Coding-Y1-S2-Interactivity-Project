@@ -185,7 +185,7 @@ button {
       grid-column-end: 13;
   }
   .p5Canvas {
-    width:auto;
+    width:auto !important;
    }
   }
   @media only screen and (max-width: 425px){
