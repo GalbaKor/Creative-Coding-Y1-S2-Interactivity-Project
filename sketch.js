@@ -40,6 +40,8 @@ function mousePressed() {                                   // if mouse is press
       attractors.push(plusatt);
       var pluspart = new Particle(mouseX, mouseY);
       particles.push(pluspart);
+      particles.push(pluspart);
+      particles.push(pluspart);
     }
   }
 }
@@ -61,6 +63,9 @@ function draw() {
     attractors[j].update();
     attractors[j].display();
     attractors[j].checkEdges();
+    for (let p = 0; i < pipes.length; i++){
+      var force = attractors[j].calculateAttraction(pipes[p]);
+    }
     for (let i = 0; i < particles.length; i++) {
       var force = attractors[j].calculateAttraction(particles[i]);
       particles[i].applyForce(force);
@@ -81,7 +86,7 @@ class Pipe {
 		/*this.xVel = random(0.5,2.5);
 		this.yVel = random(0.5,2.5);*/
 		this.acc = createVector(0,0);
-    this.mass = 2;
+    this.mass = 5;
   }
   
   contains(px, py) {
