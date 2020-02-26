@@ -26,6 +26,7 @@ function mousePressed() {                                   // if mouse is press
     if (pipes[i].contains(mouseX, mouseY)) {
       pipes.splice(i, 1);
       popSound.play();
+
     }
   }
 }
@@ -105,4 +106,62 @@ class Pipe {
 		  this.pos.y = 0+this.r;
 		}
 	}
+}
+
+class Attractor {
+
+  constructor(x, y) {
+    this.pos = createVector(x, y);
+    this.vel = createVector(random(0.1,0.5), random(0.1,0.5));
+    this.mass = 10;
+    this.G = 1;
+    this.r = 1;
+  }
+
+  calculateAttraction(p) {
+    // Calculate direction of force
+    let force = p5.Vector.sub(this.pos, p.pos);
+    // Distance between objects
+    let distance = force.mag();
+    // Artificial constraint
+    distance = constrain(distance, 5, 25);
+    // Normalize vector (distance doesn't matter here, we just want this vector for direction)
+    force.normalize();
+    // Calculate gravitional force magnitude
+    let strength = (this.G * this.mass * p.mass) / (distance * distance);
+    // Get force vector -> magnitude * direction
+    force.mult(strength);
+    return force;
+  }
+
+  update() {
+    this.pos.add(this.vel);
+  }
+
+  display() {
+    // ellipseMode(CENTER);
+    strokeWeight(3);
+    stroke(255);
+    point(this.pos.x, this.pos.y);
+  }
+
+  checkEdges() {
+
+    if (this.pos.x > (width-this.r)) {
+      this.vel.x *= -1;
+      this.pos.x = width-this.r;
+    } else if (this.pos.x < (0+this.r)) {
+      this.vel.x *= -1;
+      this.pos.x = 0+this.r;
+    }
+
+    if (this.pos.y > (height-this.r)) {
+      this.vel.y *= -1;
+      this.pos.y = height-this.r;
+    } else if (this.pos.y < (0+this.r)) {
+      this.vel.y *= -1;
+      this.pos.y = 0+this.r;
+    }
+
+  }
 }
