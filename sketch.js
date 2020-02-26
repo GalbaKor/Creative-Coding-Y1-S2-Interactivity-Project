@@ -30,24 +30,10 @@ function mousePressed() {                                   // if mouse is press
     if (pipes[i].contains(mouseX, mouseY)) {
       pipes.splice(i, 1);
       popSound.play();
-
-   
-    for (let j = 0; j < attractors.length; j++) {
       var plusatt = new Attractor(mouseX, mouseY);
       attractors.push(plusatt);
-      attractors[j].update();
-			attractors[j].display();
-			attractors[j].checkEdges();
-	  }
-		for (let i = 0; i < particles.length; i++) {
-			var force = attractors[j].calculateAttraction(particles[i]);
       var pluspart = new Particle(mouseX, mouseY);
       particles.push(pluspart);
-      particles[i].applyForce(force);
-			particles[i].update();
-			particles[i].display();
-			particles[i].checkEdges();
-		}
     }
   }
 }
@@ -64,9 +50,20 @@ function draw() {
     pipes[i].update();                                      // calls the update, checkEdges and display functions for everything in the pipes array.
     pipes[i].checkEdges();
     pipes[i].display();
-
-	
   }
+  for (let j = 0; j < attractors.length; j++) {
+    attractors[j].update();
+    attractors[j].display();
+    attractors[j].checkEdges();
+    for (let i = 0; i < particles.length; i++) {
+      var force = attractors[j].calculateAttraction(particles[i]);
+      particles[i].applyForce(force);
+      particles[i].update();
+      particles[i].display();
+      particles[i].checkEdges();
+    }
+  }
+  
 }
 
 // Pipe class
