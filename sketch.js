@@ -1,5 +1,7 @@
 var pipes = []; // array of objects
 var popSound;
+var particles = [];
+var attractors = [];
 
 function preload() {
   popSound = loadSound("sounds/Blop-Mark_DiAngelo-79054334.mp3");
@@ -27,6 +29,23 @@ function mousePressed() {                                   // if mouse is press
       pipes.splice(i, 1);
       popSound.play();
 
+   
+    for (let j = 0; j < attractors.length; j++) {
+      var plusatt = new Attractor(mouseX, mouseY);
+      attractors.push(plusatt);
+      attractors[j].update();
+			attractors[j].display();
+			attractors[j].checkEdges();
+	  }
+		for (let i = 0; i < particles.length; i++) {
+			var force = attractors[j].calculateAttraction(particles[i]);
+      var pluspart = new Particle(mouseX, mouseY);
+      particles.push(pluspart);
+      particles[i].applyForce(force);
+			particles[i].update();
+			particles[i].display();
+			particles[i].checkEdges();
+		}
     }
   }
 }
@@ -43,6 +62,8 @@ function draw() {
     pipes[i].update();                                      // calls the update, checkEdges and display functions for everything in the pipes array.
     pipes[i].checkEdges();
     pipes[i].display();
+
+	
   }
 }
 
@@ -164,4 +185,68 @@ class Attractor {
     }
 
   }
+}
+
+class Particle {
+	
+	constructor(startX, startY, startMass){
+		this.mass = startMass;
+		this.r = 1;
+		this.pos = createVector(startX, startY);
+		this.vel = createVector(random(0.01,0.1), random(0.01,0.1));
+		this.acc = createVector(0, 0);
+		/// new stuff
+		this.osc =  new p5.Oscillator(waveArray[Math.round(random(0, waveArray.length))]); //make a new oscillator with a random waveform type
+		this.envelope = new p5.Env(); // make a new envelope
+		this.envelope.setADSR(0.001, 0.5, 0.05, 0.9); // set attackTime, decayTime, sustainLevel, releaseTime
+		this.note = Math.round(random(0, scaleArray.length)); //select a random MIDI note from our scaleArray
+		this.envelope.setRange(0.5, 0); //set volume range on the envelope
+		this.osc.amp(this.envelope); //map amplitude of envelope to the oscillator
+		this.freqValue = midiToFreq(scaleArray[this.note]); // convert our MIDI note to a frequency value for the oscillator
+		this.osc.freq(this.freqValue); //set the oscillator frequency
+		this.osc.start();
+	}
+
+	applyForce(force) {
+		var f = p5.Vector.div(force, this.mass);
+		this.acc.add(force);
+	} 
+
+	update() {
+		this.vel.add(this.acc);
+		this.pos.add(this.vel);
+		this.acc.set(0, 0);
+	}
+
+	display() {
+		stroke(255, 150);
+		strokeWeight(2);
+		noFill();
+		ellipse(this.pos.x, this.pos.y,this.r,this.r);
+	}
+
+	checkEdges() {
+
+		if (this.pos.x > (width-this.r)) {
+		  this.vel.x *= -1;
+		  this.pos.x = width-this.r;
+		  this.envelope.play(this.osc, 0, 0.1);  // play sound
+		} else if (this.pos.x < (0+this.r)) {
+		  this.vel.x *= -1;
+		  this.pos.x = 0+this.r;
+		  this.envelope.play(this.osc, 0, 0.1); // play sound
+		}
+
+		if (this.pos.y > (height-this.r)) {
+		  this.vel.y *= -1;
+		  this.pos.y = height-this.r;
+		  this.envelope.play(this.osc, 0, 0.1); // play sound
+		} else if (this.pos.y < (0+this.r)) {
+		  this.vel.y *= -1;
+		  this.pos.y = 0+this.r;
+		  this.envelope.play(this.osc, 0, 0.1); // play sound
+		}
+
+	}
+
 }
