@@ -3,6 +3,12 @@ var popSound;
 var particles = [];
 var attractors = [];
 
+// Sounds //
+
+var scaleArray = [60, 62, 64, 67, 71, 72, 74, 76, 77]; //array of MIDI note numbers
+var waveArray = ['sine','square','sawtooth','triangle']; //sound wave sources
+var delay, reverb; // our effects.
+
 function preload() {
   popSound = loadSound("sounds/Blop-Mark_DiAngelo-79054334.mp3");
 }
