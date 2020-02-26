@@ -187,7 +187,7 @@ button {
   }
   @media only screen and (max-width: 425px){
     body{
-        margin-top: 80px;
+        margin-top: 60px;
     }
     #addition {
         background-color: #4CAF50;
