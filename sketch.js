@@ -21,11 +21,11 @@ function subtract() {                                       // subtract funtion 
   pipes.pop();
   popSound.play();
 }
-function mousePressed() {                                   
-  for (let i = pipes.length - 1; i >= 0; i--) {             
-    if (pipes[i].contains(mouseX, mouseY)) {                // calls the contains function from below, using the x and y coordinates of the mouse.
-      pipes.splice(i, 1);                                   // if the contain function returns true, that object is cut out of the array
-      popSound.play();                                      // plays the preloaded pop sound
+function mousePressed() {                                   // if mouse is pressed and if one of the objects contains the mouse when it is pressed-
+  for (let i = pipes.length - 1; i >= 0; i--) {             // -remove that specific object from the array
+    if (pipes[i].contains(mouseX, mouseY)) {
+      pipes.splice(i, 1);
+      popSound.play();
     }
   }
 }
@@ -47,22 +47,18 @@ function draw() {
 
 // Pipe class
 class Pipe {
-  constructor(startX, startY){                              
-		this.pos = createVector(startX, startY)                 // constructs a shape at an x and y position with a radius of 10
+  constructor(startX, startY){
+		this.pos = createVector(startX, startY)
 		this.r = 10;
 		this.vel = createVector(random(0.5,2.5),random(0.5,2.5)); /* to get x or y, do this.vel.x or this.vel.y */
 		/*this.xVel = random(0.5,2.5);
 		this.yVel = random(0.5,2.5);*/
 		this.acc = createVector(0,0);
-    this.mass = 2;                                          // mass of the object is 2
-    var valr = document.getElementById("r").value;          // calls the value of the element with the id r, g and b and turns them into a variable
-    var valg = document.getElementById("g").value;
-    var valb = document.getElementById("b").value;
-    stroke(valr, valg, valb);                               // above three variables are applied to stroke to form a colour.
+    this.mass = 2;
   }
   
-  contains(px, py) {                                  // checks to see if an x and y variable are between the edge of the object's radius and the
-    let d = dist(px, py, this.pos.x, this.pos.y);     // center of the object
+  contains(px, py) {
+    let d = dist(px, py, this.pos.x, this.pos.y);
     if (d < this.r) {
       return true;
     } else {
@@ -83,7 +79,10 @@ class Pipe {
 	}
 
 	display() {
-    
+    var valr = document.getElementById("r").value;
+    var valg = document.getElementById("g").value;
+    var valb = document.getElementById("b").value;
+    stroke(valr, valg, valb);
     strokeWeight(2.5)
 		noFill();
 		ellipse(this.pos.x, this.pos.y,this.r*2,this.r*2);
