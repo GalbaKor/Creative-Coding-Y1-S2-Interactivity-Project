@@ -32,9 +32,22 @@ function subtract() {                                       // subtract funtion 
   }
 }
 function reset() {
-  pipes.clear();
-  attractors.clear();
-  particles.clear();
+  for (let i = pipes.length; i >= 0; i --){
+    if (pipes.length >= 0){
+      pipes.pop();
+    }
+  }
+  for (let i = attractors.length; i >= 0; i --){
+    if (attractors.length >= 0){
+      attractors.pop();
+    }
+  }
+  for (let i = particles.length; i >= 0; i --){
+    if (particles.length >= 0){
+      particles.pop();
+    }
+  }
+  
 }
 function mousePressed() {                                   // if mouse is pressed and if one of the objects contains the mouse when it is pressed-
   for (let i = pipes.length - 1; i >= 0; i--) {             // -remove that specific object from the array
