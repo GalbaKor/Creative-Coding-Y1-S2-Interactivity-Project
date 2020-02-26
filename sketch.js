@@ -31,6 +31,11 @@ function subtract() {                                       // subtract funtion 
   popSound.play(); 
   }
 }
+function reset() {
+  pipes.clear();
+  attractors.clear();
+  particles.clear();
+}
 function mousePressed() {                                   // if mouse is pressed and if one of the objects contains the mouse when it is pressed-
   for (let i = pipes.length - 1; i >= 0; i--) {             // -remove that specific object from the array
     if (pipes[i].contains(mouseX, mouseY)) {
