@@ -38,7 +38,12 @@ function mousePressed() {                                   // if mouse is press
       popSound.play();
       var plusatt = new Attractor(mouseX, mouseY);
       attractors.push(plusatt);
+
+      pred = random(255);
+      pgreen = random(255);
+      pblue = random(255);
       var pluspart = new Particle(mouseX, mouseY);
+      fill(pred, pgreen, pblue);
       particles.push(pluspart);
       particles.push(pluspart);
       particles.push(pluspart);
@@ -172,7 +177,7 @@ class Attractor {
   display() {
     // ellipseMode(CENTER);
     strokeWeight(3);
-    stroke(255);
+    stroke(0);
     point(this.pos.x, this.pos.y);
   }
 
@@ -229,9 +234,9 @@ class Particle {
 	}
 
 	display() {
-		stroke(255, 150);
+		stroke(pred, pgreen, pblue);
 		strokeWeight(2);
-		noFill();
+		fill(255);
 		ellipse(this.pos.x, this.pos.y,this.r,this.r);
 	}
 
