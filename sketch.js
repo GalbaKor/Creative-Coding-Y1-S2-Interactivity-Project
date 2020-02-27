@@ -233,7 +233,7 @@ class Particle {
 		this.envelope = new p5.Env(); // make a new envelope
 		this.envelope.setADSR(0.001, 0.5, 0.05, 0.9); // set attackTime, decayTime, sustainLevel, releaseTime
 		this.note = Math.round(random(0, scaleArray.length)); //select a random MIDI note from our scaleArray
-		this.envelope.setRange(0.5, 0); //set volume range on the envelope
+		this.envelope.setRange(0.2, 0); //set volume range on the envelope
 		this.osc.amp(this.envelope); //map amplitude of envelope to the oscillator
 		this.freqValue = midiToFreq(scaleArray[this.note]); // convert our MIDI note to a frequency value for the oscillator
 		this.osc.freq(this.freqValue); //set the oscillator frequency
