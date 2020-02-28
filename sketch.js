@@ -86,7 +86,7 @@ function draw() {
     attractors[j].update();
     attractors[j].display();
     attractors[j].checkEdges();
-    for (let p = 0; i < pipes.length; i++){
+    for (let p = 0; p < pipes.length; p++){
       var force = attractors[j].calculateAttraction(pipes[p]);
     }
     for (let i = 0; i < particles.length; i++) {
