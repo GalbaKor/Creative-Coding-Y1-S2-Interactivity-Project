@@ -154,9 +154,9 @@ class Pipe {
 		noFill();
         ellipse(this.pos.x, this.pos.y,this.r*2,this.r*2);
     stroke(valr/(random(1,5)), valg/(random(1,5)), valb/(random(1,5)));
-        ellipse(this.pos.x-random(0,4), this.pos.y+random(0,4),(this.r-4)/2,(this.r-4)/2);
-        ellipse(this.pos.x+random(0,4), this.pos.y+random(0,4),(this.r-4)/2,(this.r-4)/2);
-        ellipse(this.pos.x-random(0,4), this.pos.y-random(0,4),(this.r-4)/2,(this.r-4)/2);
+        ellipse(this.pos.x-random(0,4), this.pos.y+random(0,4),(this.r-4)/2,(this.r-4)/2); // the use of random for this.pos.x and y means that they will constantly shift position
+        ellipse(this.pos.x+random(0,4), this.pos.y+random(0,4),(this.r-4)/2,(this.r-4)/2); // as the display and update functions are called under the draw function
+        ellipse(this.pos.x-random(0,4), this.pos.y-random(0,4),(this.r-4)/2,(this.r-4)/2); // meanwhile by using the pos.x and pos.y of the parent, they remain inside the larger ellipse.
 	}
 
 	checkEdges() {
