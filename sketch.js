@@ -2,7 +2,6 @@ var pipes = []; // array of objects
 var popSound; // initialises pop sound variable
 var particles = [];  //array of objects
 var attractors = [];  // array of objects
-
 // Sounds //
 
 // var scaleArray = [60, 62, 64, 67, 71, 72, 74, 76, 77]; //array of MIDI note numbers: C 60, D 62, E 64, G 67, 71 B, 72 C, 74 D, 76 E, 77 F
@@ -28,8 +27,20 @@ function add() {                                            // add function - in
 function subtract() {                                       // subtract funtion - removes the latest addition to the array with pop
     pipes.pop();
     if(pipes.length > 0){                                   // if the number of objects is above 0, play the pop sound. This prevents the pop sound from occuring if nothing is there to remove
-    popSound.play(); 
+      popSound.play(); 
+      var plusatt = new Attractor(random(width), random(height));
+      attractors.push(plusatt); 
+      pred = random(155,255);                               // randomised rgb between 155 and 255. I chose 155 - 255 so that they would always be easily visible
+      pgreen = random(155,255);
+      pblue = random(155,255);
+      var pluspart = new Particle(random(width), random(height));
+      fill(pred, pgreen, pblue);
+      particles.push(pluspart);
+      particles.push(pluspart);
+      particles.push(pluspart);
     }
+
+    
   }
 function reset() {                                          // a reset function that checks if there are more than 1 of any of my created objects, then removes one.
     for (let i = pipes.length; i >= 0; i --){               // This continues until there are 0 objects left.
