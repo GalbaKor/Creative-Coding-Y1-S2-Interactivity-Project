@@ -26,7 +26,7 @@ function add() {                                            // add function - in
 }
 function subtract() {                                       // subtract funtion - removes the latest addition to the array with pop
     pipes.pop();
-    if(pipes.length >= 0){                                   // if the number of objects is above 0, play the pop sound. This prevents the pop sound from occuring if nothing is there to remove
+    if(pipes.length >= 1){                                   // if the number of objects is above 0, play the pop sound. This prevents the pop sound from occuring if nothing is there to remove
       popSound.play(); 
       var plusatt = new Attractor(random(width), random(height));
       attractors.push(plusatt); 
