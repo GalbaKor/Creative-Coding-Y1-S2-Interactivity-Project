@@ -2,7 +2,8 @@
 #s1{
   text-align: center;
 }
-
+ 
+  /* semester 1 */
 #wrapper1{
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
@@ -69,10 +70,8 @@
   grid-column-end: 10;
 }
 
-  
+ 
 /* semester 2 */
-  
-  
   body {
     display: flex;
     background-color: black;
