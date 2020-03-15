@@ -1,6 +1,7 @@
 function setup() {          // draws everything inside it once at the start
-  createCanvas(800,800);   // creates a canvas 800 pixel width and height
-  
+  var cnv = createCanvas(800, 800);   // puts canvas function as a variable.
+  cnv.style('display', 'block');                           // prevents scrollbars from appearing when size changes.
+  cnv.parent('image2canvas');                               // designates 'canvasholder' as the parent for the canvas. Canvasholder is an id in the html file 
 
   for (let i = 0; i < height/8; i++){ //background horizontal lines
     x = 0;  // variable x changed to equal 0

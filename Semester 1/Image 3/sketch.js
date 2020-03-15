@@ -6,8 +6,9 @@
   */
 
 function setup() {  // draws everything inside it once
-  createCanvas(800, 800);  // canvas is created 800 pixels up and across
-  
+  var cnv = createCanvas(800, 800);  // canvas is created 800 pixels up and across
+  cnv.style('display', 'block');                           // prevents scrollbars from appearing when size changes.
+  cnv.parent('image3canvas');                               // designates 'canvasholder' as the parent for the canvas. Canvasholder is an id in the html file
   // Create objects.
   for (var i = 0; i < 70; i++) { // for the variable i, if i is less than 70, add another. This then pushes a new jiggleee into the array, creating more jiggling eyes.
     jiggleee.push(new Eye(random(width), random(height), random(10, 30)));  // adds a new jiggleee into the array. Each new thing uses the Eye class to create an Eye in a random location with semi-random size

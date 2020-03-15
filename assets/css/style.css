@@ -1,4 +1,33 @@
  
+  /* semester 1 */
+  
+#wrapper1{
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  grid-template-rows: auto;
+  justify-items: center;
+  margin-top: auto;
+}
+
+#image1canvas {
+  grid-row: 2;
+  grid-column-start: 4;
+  grid-column-end: 10;
+}
+#image2canvas {
+  grid-row: 3;
+  grid-column-start: 4;
+  grid-column-end: 10;
+}
+#image3canvas {
+  grid-row: 4;
+  grid-column-start: 4;
+  grid-column-end: 10;
+}
+
+  
+  
+  /* semester 2 */
   body {
     display: flex;
     background-color: black;
