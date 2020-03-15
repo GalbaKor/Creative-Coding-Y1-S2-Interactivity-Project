@@ -16,7 +16,7 @@ function preload() { // uses preload function from p5.sound
 function setup() {
   var cnv = createCanvas(windowWidth/1.75, windowHeight/1.75);   // puts canvas function as a variable.
   cnv.style('display', 'block');                           // prevents scrollbars from appearing when size changes.
-  cnv.parent('canvasholder')                               // designates 'canvasholder' as the parent for the canvas. Canvasholder is an id in the html file
+  cnv.parent('canvasholder');                               // designates 'canvasholder' as the parent for the canvas. Canvasholder is an id in the html file
   noFill();                                                // no fill for objects created
 }
 
