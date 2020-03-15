@@ -10,7 +10,7 @@ var waveArray = ['sine','square','sawtooth','triangle']; //sound wave sources
 var reverb; // reverb effect
 
 function preload() { // uses preload function from p5.sound
-    popSound = loadSound("Semester 2/sounds/Blop-Mark_DiAngelo-79054334.mp3"); // preloads a sound and stores it in the popSound variable
+    popSound = loadSound("sounds/Blop-Mark_DiAngelo-79054334.mp3"); // preloads a sound and stores it in the popSound variable
   }
 
 function setup() {
