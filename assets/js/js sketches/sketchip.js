@@ -2,10 +2,26 @@ var pipes = []; // array of objects
 var popSound; // initialises pop sound variable
 var particles = [];  //array of objects
 var attractors = [];  // array of objects
+
 // Sounds //
 
-var scaleArray = [62, 64, 66, 67, 69, 71, 73, 74]; // D major scale in midi: D 62, E 64, F# 66, G 67, A 69, B 71, C# 73, D 74
-var waveArray = ['sine','square','sawtooth','triangle']; //sound wave sources
+/*function chords() {
+  rc = random(1,4);
+  if(rc = 1){
+    scaleArray = [62, 66, 69]
+    } else if (rc = 2){
+      scaleArray = [65, 69, 72]
+    } else if (rc = 3){
+      scaleArray = [68, 72, 75]
+    } else if (rc = 4){
+      scaleArray = [71, 75, 78]
+    }
+    }*/ // tried figuring out a way to initiate a random array, each array containing a different chord. Not sure how to get it to work so that there is only one array per reset
+        // and call the whole array in the sound section of the particle constructor below, as if there are more than one arrays, it will sound terrible as the chords overlap. 
+
+// midi notes: C60, C#61, D62, D#63, E64, F65, F#66, G67, G#68, A69, A#70, B71, C72, C#73, D74
+var scaleArray = [62, 66, 69]; // D major scale in midi: D 62, E 64, F# 66, G 67, A 69, B 71, C# 73, D 74
+
 var reverb; // reverb effect
 
 function preload() { // uses preload function from p5.sound
@@ -13,10 +29,11 @@ function preload() { // uses preload function from p5.sound
   }
 
 function setup() {
-  var cnv = createCanvas(windowWidth/1.75, windowHeight/1.75);   // puts canvas function as a variable.
-  cnv.style('display', 'block');                           // prevents scrollbars from appearing when size changes.
-  cnv.parent('canvasholder');                               // designates 'canvasholder' as the parent for the canvas. Canvasholder is an id in the html file
-  noFill();                                                // no fill for objects created
+  var cnv = createCanvas(windowWidth/1.75, windowHeight/1.75);    // puts canvas function as a variable.
+  cnv.style('display', 'block');                                  // prevents scrollbars from appearing when size changes.
+  cnv.parent('canvasholder');                                     // designates 'canvasholder' as the parent for the canvas. Canvasholder is an id in the html file
+  noFill();                                                       // no fill for objects created
+  reset();
 }
 
 function add() {                                            // add function - initiates a variable called plusone.
@@ -57,6 +74,9 @@ function reset() {                                          // a reset function 
         particles.pop();
         }
     }
+    waveArrays = ['sine','square','triangle','sawtooth'];            //sound wave sources
+    waveArray = random(waveArrays);
+    print(waveArray);
 }
 
 function mousePressed() {                                   // if mouse is pressed and if one of the objects contains the mouse when it is pressed-
@@ -87,6 +107,7 @@ function windowResized() {                                  // when window is re
 
 function draw() {
   background(0);
+  
   // move and display all the objects
   for (var i = 0; i < pipes.length; i++) {                  // if i is less than the array length, add one.
     //pipes[i].move();
@@ -121,9 +142,9 @@ class Pipe {
     constructor(startX, startY){   // create at an x and y position.
 		this.pos = createVector(startX, startY);    // vector starts at x and y
 		this.r = 10;   // radius of 10
-        this.vel = createVector(random(0.5,1),random(0.5,1)); /* to get x or y, do this.vel.x or this.vel.y */
-        this.acc = createVector(0,0);   
-        this.mass = 1;  // mass of 1
+    this.vel = createVector(random(0.05,0.5),random(0.05,0.5)); /* to get x or y, do this.vel.x or this.vel.y */
+    this.acc = createVector(0,0);   
+    this.mass = 1;  // mass of 1
     }
   
     contains(px, py) {        // my contains function to check if the circle contains mouse
@@ -196,8 +217,8 @@ class Attractor {                            // attractor class. Creates an obje
         this.pos = createVector(x, y);
         this.vel = createVector(random(0.1,0.5), random(0.1,0.5));
         this.mass = 10;                      // higher mass than other objects so that other objects move round the attractor.
-        this.G = 1;                          // gravitational strength of 1 and radius of 1.
-        this.r = 1;   
+        this.G = 1;                          // gravitational strength of 1
+        this.r = 1;                          // radius of 1
     }
 
     calculateAttraction(p) {                  // calculates attraction of other elements to the attractor. Uses code from class.
@@ -256,7 +277,7 @@ class Particle {
 		this.vel = createVector(random(0.01,0.1), random(0.01,0.1));  // creates a vector with a random speed
     this.acc = createVector(0, 0); // vector acceleration
         // Sound code
-		this.osc =  new p5.Oscillator(waveArray[Math.round(random(0, waveArray.length))]); //make a new oscillator with a random waveform type
+		this.osc =  new p5.Oscillator(waveArray); //make a new oscillator with a random waveform type
 		this.envelope = new p5.Envelope(); // make a new envelope
 		this.envelope.setADSR(0.001, 0.5, 0.05, 0.1); // sets the attackTime, decayTime, sustainLevel, releaseTime
 		this.note = Math.round(random(0, scaleArray.length)); // selects a random MIDI note from the scaleArray array
