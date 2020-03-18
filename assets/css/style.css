@@ -58,6 +58,7 @@
   grid-template-rows: auto;
   justify-items: center;
   margin-top: auto;
+  text-align: center !important;
 }
 #aboutheader{
   grid-row: 1;
@@ -69,7 +70,64 @@
   grid-column-start: 4;
   grid-column-end: 10;
 }
+#aboutnav{
+  grid-row: 3;
+  grid-column-start: 4;
+  grid-column-end: 10;
+}
+#about {
+	display: grid;
+	grid-template-rows: auto;
+}
 
+#about nav ul {
+	display: -moz-flex;
+	display: -webkit-flex;
+	display: -ms-flex;
+	display: flex;
+	margin-bottom: 0;
+	list-style: none;
+	padding-left: 0;
+	border: solid 1px #ffffff;
+  border-radius: 4px;
+}
+	#about nav ul li {
+		padding-left: 0;
+		border-left: solid 1px #ffffff;
+	}
+		#about nav ul li:first-child {
+			border-left: 0;
+		}
+		#about nav ul li a {
+			display: block;
+			min-width: 7.5rem;
+			height: 2.75rem;
+			line-height: 2.75rem;
+			padding: 0 1.25rem 0 1.45rem;
+			text-transform: uppercase;
+			letter-spacing: 0.2rem;
+			font-size: 0.8rem;
+			border-bottom: 0;
+		}
+			#about nav ul li a:hover {
+				background-color: rgba(255, 255, 255, 0.075);
+			}
+			#about nav ul li a:active {
+				background-color: rgba(255, 255, 255, 0.175);
+			}
+#about nav.use-middle:after {
+	content: '';
+	display: block;
+	position: absolute;
+	top: 0;
+	left: calc(50% - 1px);
+	width: 1px;
+	height: 100%;
+	background: #ffffff;
+}
+#about nav.use-middle ul li.is-middle {
+	border-left: 0;
+}
  
 /* semester 2 */
   body {

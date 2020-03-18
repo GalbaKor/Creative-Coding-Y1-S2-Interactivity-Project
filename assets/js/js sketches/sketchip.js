@@ -65,8 +65,10 @@ function mousePressed() {                                   // if mouse is press
     if (pipes[i].contains(mouseX, mouseY)) {                // if pipe object contains mouse x and mouse y when the mouse is pressed - contain is a function created in the Pipes class
       pipes.splice(i, 1);                                   // splice - remove, that specific object from the array.
       popSound.play();                                      // then play the popSound
-      var plusatt = new Attractor(mouseX, mouseY);          // Next, sets the plusatt variable to = a new Attractor object
-      attractors.push(plusatt);                             // push this new Attractor object into the attractors array
+      for (let a = attractors.length; a < 2; a++) {
+        var plusatt = new Attractor(mouseX, mouseY);        // Next, sets the plusatt variable to = a new Attractor object
+        attractors.push(plusatt);                           // push this new Attractor object into the attractors array
+      }                            
 
       pred = random(155,255);                               // randomised rgb between 155 and 255. I chose 155 - 255 so that they would always be easily visible
       pgreen = random(155,255);
@@ -74,8 +76,7 @@ function mousePressed() {                                   // if mouse is press
       var pluspart = new Particle(mouseX, mouseY);          // same as plusatt but for particles rather than attractors and 3 particles are created, rather than 1.
       fill(pred, pgreen, pblue);
       particles.push(pluspart);
-      particles.push(pluspart);
-      particles.push(pluspart);
+      
            
     }
   }
@@ -248,16 +249,16 @@ class Attractor {                            // attractor class. Creates an obje
 
 class Particle {
 	
-	constructor(startX, startY, startMass){
-        // vector position and forces
-		this.mass = startMass;
+	constructor(startX, startY){
+    // vector position and forces
+		this.mass = 1;
 		this.r = 1;
 		this.pos = createVector(startX, startY); // allows user to choose start position
 		this.vel = createVector(random(0.01,0.1), random(0.01,0.1));  // creates a vector with a random speed
     this.acc = createVector(0, 0); // vector acceleration
         // Sound code
 		this.osc =  new p5.Oscillator(waveArray[Math.round(random(0, waveArray.length))]); //make a new oscillator with a random waveform type
-		this.envelope = new p5.Env(); // make a new envelope
+		this.envelope = new p5.Envelope(); // make a new envelope
 		this.envelope.setADSR(0.001, 0.5, 0.05, 0.1); // sets the attackTime, decayTime, sustainLevel, releaseTime
 		this.note = Math.round(random(0, scaleArray.length)); // selects a random MIDI note from the scaleArray array
 		this.envelope.setRange(0.01, 0); // sets the volume range for the envelope
@@ -283,7 +284,7 @@ class Particle {
 		stroke(pred, pgreen, pblue);
 		strokeWeight(2);
 		fill(255);
-		ellipse(this.pos.x, this.pos.y,this.r,this.r);
+    ellipse(this.pos.x, this.pos.y,this.r,this.r);
 	}
 
 	checkEdges() {      // same as pipe class
