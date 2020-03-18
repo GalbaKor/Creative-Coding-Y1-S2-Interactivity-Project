@@ -2,7 +2,8 @@ var pipes = []; // array of objects
 var popSound; // initialises pop sound variable
 var particles = [];  //array of objects
 var attractors = [];  // array of objects
-
+var timer = 10;
+var retimer = 10;
 // Sounds //
 
 /*function chords() {
@@ -19,8 +20,8 @@ var attractors = [];  // array of objects
     }*/ // tried figuring out a way to initiate a random array, each array containing a different chord. Not sure how to get it to work so that there is only one array per reset
         // and call the whole array in the sound section of the particle constructor below, as if there are more than one arrays, it will sound terrible as the chords overlap. 
 
-// midi notes: C60, C#61, D62, D#63, E64, F65, F#66, G67, G#68, A69, A#70, B71, C72, C#73, D74
-var scaleArray = [62, 66, 69]; // D major scale in midi: D 62, E 64, F# 66, G 67, A 69, B 71, C# 73, D 74
+// midi notes: C60, C#61, D62, D#63, E64, F65, F#66, G67, G#68, A69, A#70, B71, C72, C#73, D74    <-- I figured out and wrote down midi values and their corresponding key
+var scaleArray = [62, 66, 69]; // D major scale in midi: D 62, E 64, F# 66, G 67, A 69, B 71, C# 73, D 74  <-- D major scale, I'm using a major chord with a root of D
 
 var reverb; // reverb effect
 
@@ -33,7 +34,8 @@ function setup() {
   cnv.style('display', 'block');                                  // prevents scrollbars from appearing when size changes.
   cnv.parent('canvasholder');                                     // designates 'canvasholder' as the parent for the canvas. Canvasholder is an id in the html file
   noFill();                                                       // no fill for objects created
-  reset();
+  reset();                                                        // calls the reset function below 
+  
 }
 
 function add() {                                            // add function - initiates a variable called plusone.
@@ -49,8 +51,8 @@ function subtract() {                                       // subtract funtion 
       pred = random(155,255);                               // randomised rgb between 155 and 255. I chose 155 - 255 so that they would always be easily visible
       pgreen = random(155,255);
       pblue = random(155,255);
-      var pluspart = new Particle(random(width), random(height));
-      fill(pred, pgreen, pblue);
+      var pluspart = new Particle(random(width), random(height));     // pluspart is a variable that adds a new Particle to the canvas at a random position on the canvas
+      fill(pred, pgreen, pblue);                                      // fill with the random rgb values from above
       particles.push(pluspart);
       particles.push(pluspart);
       particles.push(pluspart);
@@ -59,6 +61,10 @@ function subtract() {                                       // subtract funtion 
     
   }
 function reset() {                                          // a reset function that checks if there are more than 1 of any of my created objects, then removes one.
+    waveArrays = ['sine','square','triangle','sawtooth'];            //sound wave sources
+    waveArray = random(waveArrays);
+    print(waveArray);
+
     for (let i = pipes.length; i >= 0; i --){               // This continues until there are 0 objects left.
         if (pipes.length >= 0){
         pipes.pop();
@@ -74,9 +80,12 @@ function reset() {                                          // a reset function 
         particles.pop();
         }
     }
-    waveArrays = ['sine','square','triangle','sawtooth'];            //sound wave sources
-    waveArray = random(waveArrays);
-    print(waveArray);
+    if (millis() <= 1000){
+        fill(255);
+        textAlign(CENTER, BOTTOM);
+        textSize(24);
+        text(waveArray, 0, height/1.05, width);
+    }
 }
 
 function mousePressed() {                                   // if mouse is pressed and if one of the objects contains the mouse when it is pressed-
@@ -88,15 +97,13 @@ function mousePressed() {                                   // if mouse is press
         var plusatt = new Attractor(mouseX, mouseY);        // Next, sets the plusatt variable to = a new Attractor object
         attractors.push(plusatt);                           // push this new Attractor object into the attractors array
       }                            
-
       pred = random(155,255);                               // randomised rgb between 155 and 255. I chose 155 - 255 so that they would always be easily visible
       pgreen = random(155,255);
       pblue = random(155,255);
       var pluspart = new Particle(mouseX, mouseY);          // same as plusatt but for particles rather than attractors and 3 particles are created, rather than 1.
       fill(pred, pgreen, pblue);
       particles.push(pluspart);
-      
-           
+    
     }
   }
 }
@@ -105,12 +112,49 @@ function windowResized() {                                  // when window is re
   resizeCanvas(windowWidth/1.75, windowHeight/1.75);        // canvas size is the same as the width and height / 1.75  -  keeps the canvas smaller than the window.
 }
 
+function retimerCountdown() {
+  setInterval(function() {
+    if (retimer > 0) {
+      retimer--;
+    }
+  }, 1000);
+  if (retimer == 0){
+    retimer == 10;
+  }
+}
+
 function draw() {
-  background(0);
-  
-  // move and display all the objects
+  background(0);             // canvas colour is black
+
+  /* information menu: if the timer is below 10 seconds, it displays the info. If it's above 10 seconds, the info disappears and */
+  textAlign(CENTER, CENTER);                    // text is aligned in the center of the screen, white fill, 24 size.
+  fill(255);
+  textSize(24);
+  if (millis() <= 10000){                       // if the time in milliseconds is less than the given value, shows the text below
+    text('Press the add button to add a ball. \nClick the ball itself or the subtract button to pop it.\n\nWaveforms:\n1 = Sawtooth\n2 = Sine\n3= Square\n4 = Triangle\n\npress "q" to show this again.',0, height/4, width);
+    text(timer, 0, height/1.35, width);
+  }
+  if (frameCount % 60 == 0 && timer > 0) {      // if the frameCount is divisible by 60, then a second has passed. it will stop at 0 (https://editor.p5js.org/marynotari/sketches/S1T2ZTMp-)
+    timer --;                         
+  }
+  if (millis() >= 10000){
+  textAlign(CENTER, BOTTOM);                    // aligns text at the center and bottom of the canvas
+  text(waveArray, 0, height/1.05, width);       // puts the current waveform as text near the bottom of the canvas
+  }
+
+
+  if (key === 'q'){
+    if (retimer > 0){
+      text('Press the add button to add a ball. \nClick the ball itself or the subtract button to pop it.\n\nWaveforms:\n1 = Sawtooth\n2 = Sine\n3= Square\n4 = Triangle\n\npress "q" to show this again.',0, height/4, width);
+      text(retimer, 0, height/1.35, width);
+      if (frameCount % 60 == 0 && retimer > 0) {      // if the frameCount is divisible by 60, then a second has passed. it will stop at 0 (https://editor.p5js.org/marynotari/sketches/S1T2ZTMp-)
+        retimer --;                         
+      }
+    }
+  }
+
+  /* move and display all the objects */
   for (var i = 0; i < pipes.length; i++) {                  // if i is less than the array length, add one.
-    //pipes[i].move();
     pipes[i].update();                                      // calls the update, checkEdges and display functions for everything in the pipes array.
     pipes[i].checkEdges();                                  // the pipes update, checkEdges and display are listed twice here so that they are updated for each state the piece is in.
     pipes[i].display();                                     // if there no attractors, this is my state 1. If there are attractors, the pipes use the force of the attractors to speed up - state 2.
@@ -139,26 +183,26 @@ function draw() {
 
 // Pipe class
 class Pipe {
-    constructor(startX, startY){   // create at an x and y position.
-		this.pos = createVector(startX, startY);    // vector starts at x and y
-		this.r = 10;   // radius of 10
-    this.vel = createVector(random(0.05,0.5),random(0.05,0.5)); /* to get x or y, do this.vel.x or this.vel.y */
+    constructor(startX, startY){                                     // create at an x and y position.
+		this.pos = createVector(startX, startY);                         // vector starts at x and y
+		this.r = 10;                                                     // radius of 10
+    this.vel = createVector(random(0.05,0.5),random(0.05,0.5));      // to get x or y, do this.vel.x or this.vel.y
     this.acc = createVector(0,0);   
-    this.mass = 1;  // mass of 1
+    this.mass = 1;                                                   // mass of 1
     }
   
-    contains(px, py) {        // my contains function to check if the circle contains mouse
-        let d = dist(px, py, this.pos.x, this.pos.y);   // d is a distance between the chosen x and y coordinates, and the x and y coordinates of the parent class - the pipe/ circle.
-        if (attractors.length <1 && d < this.r) {       // I added three different if statements since adding more attractors increases the speed of the pipe circles. 
-            return true;                                // thus I needed some leeway - the r+x - so that you can still click on the circles when they are going at speed.
+    contains(px, py) {                                            // my contains function to check if the circle contains mouse
+        let d = dist(px, py, this.pos.x, this.pos.y);             // d is a distance between the chosen x and y coordinates, and the x and y coordinates of the parent class - the pipe/ circle.
+        if (attractors.length <1 && d < this.r) {                 // I added three different if statements since adding more attractors increases the speed of the pipe circles. 
+            return true;                                          // thus I needed some leeway - the r+x - so that you can still click on the circles when they are going at speed.
         } else if (attractors.length >=1 && d < this.r+10){       // if attractor length is less than 1, mouse needs to be perfectly in the bubble.
             return true;    
         } else if (attractors.length >=5 && d < this.r+20){       // if attractor length is above 1, 5 and 10 mouse can be outside of the radius + an additional amount.
             return true;
-        } else if (attractors.length >=10 && d < this.r+40){       // if the px, py is between the center of the pipe/ circle and the edge of the circle - defined by the radius, return true.
+        } else if (attractors.length >=10 && d < this.r+40){      // if the px, py is between the center of the pipe/ circle and the edge of the circle - defined by the radius, return true.
             return true;                    
         }
-        else {                                                     // else if the mouse is not inside the circle, return false.
+        else {                                                    // else if the mouse is not inside the circle, return false.
         return false;
         }
     }
@@ -177,14 +221,14 @@ class Pipe {
         
 	}
 
-	display() {                                         // displayed elements use rgb from sliders in html, with IDs 'r', 'g' and 'b'.
-    var valr = document.getElementById("r").value;
+	display() {                                                                              // displayed elements use rgb from sliders in html, with IDs 'r', 'g' and 'b'.
+    var valr = document.getElementById("r").value;                                         // getElementById links the value of the html ID to this bit of code
     var valg = document.getElementById("g").value;
     var valb = document.getElementById("b").value;
     stroke(valr, valg, valb);
-    strokeWeight(2.5)                                 // thicker strokeWeight to make them more visible.
+    strokeWeight(2.5)                                                                      // thicker strokeWeight to make them more visible.
 		noFill();
-        ellipse(this.pos.x, this.pos.y,this.r*2,this.r*2);              // creates ellipses at start position with a larger radius, then makes a series of smaller ellipses inside.
+        ellipse(this.pos.x, this.pos.y,this.r*2,this.r*2);                                 // creates ellipses at start position with a larger radius, then makes a series of smaller ellipses inside.
     stroke(valr/(random(1,5)), valg/(random(1,5)), valb/(random(1,5)));
         ellipse(this.pos.x-random(0,4), this.pos.y+random(0,4),(this.r-4)/2,(this.r-4)/2); // the use of random for this.pos.x and y means that they will constantly shift position
         ellipse(this.pos.x+random(0,4), this.pos.y+random(0,4),(this.r-4)/2,(this.r-4)/2); // as the display and update functions are called under the draw function
@@ -195,7 +239,7 @@ class Pipe {
 		if (this.pos.x > (width-this.r)) {        // if the x and y positions are greater than the width and height of the canvas minus the radius, the veolocity is reversed so it bounces back.
 		  this.vel.x *= -1;                       // the radius is important here as it helps create the illusion that the circle bounces when the stroke hits the edge, rather than the area inside the circle.
 		  this.pos.x = width-this.r;    
-		} else if (this.pos.x < (0+this.r)) {      // reverse x position for left and right, then same for y positions below.
+		} else if (this.pos.x < (0+this.r)) {     // reverse x position for left and right, then same for y positions below.
 		  this.vel.x *= -1;
 		  this.pos.x = 0+this.r;
 		}
@@ -211,7 +255,7 @@ class Pipe {
     
 }
 
-class Attractor {                            // attractor class. Creates an object at x and y position with a vector movement using a random velocity.
+class Attractor {                            /* attractor class. Creates an object at x and y position with a vector movement using a random velocity. */
 
     constructor(x, y) {
         this.pos = createVector(x, y);
@@ -221,34 +265,27 @@ class Attractor {                            // attractor class. Creates an obje
         this.r = 1;                          // radius of 1
     }
 
-    calculateAttraction(p) {                  // calculates attraction of other elements to the attractor. Uses code from class.
-        // calculates the direction of force
-        let force = p5.Vector.sub(this.pos, p.pos);
-        // distance between objects
-        let distance = force.mag();
-        // Artificial constraint
-        distance = constrain(distance, 5, 25);
-        // Normalize vector (distance doesn't matter here, we just want this vector for direction)
-        force.normalize();
-        // Calculate gravitional force magnitude
-        let strength = (this.G * this.mass * p.mass) / (distance * distance);
-        // Get force vector -> magnitude * direction
-        force.mult(strength); 
+    calculateAttraction(p) {                        // calculates attraction of other elements to the attractor. Uses code from class.
+        let force = p5.Vector.sub(this.pos, p.pos);                             // calculates the direction of force
+        let distance = force.mag();                                             // the distance between objects
+        distance = constrain(distance, 5, 25);                                  // Artificial constraint
+        force.normalize();                                                      // normalizes the force to a vector of length 1 - this means that it is a direction vector only, since distance is unecessary
+        let strength = (this.G * this.mass * p.mass) / (distance * distance);   // Calculate gravitional force magnitude
+        force.mult(strength);                                                   // Get force vector -> magnitude * direction
         return force;
     }
 
     update() {
-        this.pos.add(this.vel);
+        this.pos.add(this.vel);         // updates the position by adding the velocity to it
     }
 
     display() {
-        // ellipseMode(CENTER);
         strokeWeight(3);
         stroke(0);
         point(this.pos.x, this.pos.y);
     }
 
-    checkEdges() {      // same as checkEdges used in pipe class
+    checkEdges() {                                  // same as checkEdges used in pipe class
         if (this.pos.x > (width-this.r)) {
         this.vel.x *= -1;
         this.pos.x = width-this.r;
@@ -267,24 +304,24 @@ class Attractor {                            // attractor class. Creates an obje
     }
 }
 
-class Particle {
+class Particle {  /* particle class */
 	
-	constructor(startX, startY){
-    // vector position and forces
+	constructor(startX, startY){  // places particle at a given x and y position
+    /* vector position and forces */
 		this.mass = 100;
 		this.r = 1;
-		this.pos = createVector(startX, startY); // allows user to choose start position
+		this.pos = createVector(startX, startY);                      // allows user to choose start position
 		this.vel = createVector(random(0.01,0.1), random(0.01,0.1));  // creates a vector with a random speed
-    this.acc = createVector(0, 0); // vector acceleration
-        // Sound code
-		this.osc =  new p5.Oscillator(waveArray); //make a new oscillator with a random waveform type
-		this.envelope = new p5.Envelope(); // make a new envelope
-		this.envelope.setADSR(0.001, 0.5, 0.05, 0.1); // sets the attackTime, decayTime, sustainLevel, releaseTime
-		this.note = Math.round(random(0, scaleArray.length)); // selects a random MIDI note from the scaleArray array
-		this.envelope.setRange(0.01, 0); // sets the volume range for the envelope
-		this.osc.amp(this.envelope); // allows the oscillator to use the amplitude in this.envelope
-		this.freqValue = midiToFreq(scaleArray[this.note]); // convert our MIDI note to a frequency value for the oscillator
-		this.osc.freq(this.freqValue); //set the oscillator frequency
+    this.acc = createVector(0, 0);                                // vector acceleration
+        /* sound code */
+		this.osc =  new p5.Oscillator(waveArray);               // make a new oscillator using the waveArray
+		this.envelope = new p5.Envelope();                      // make a new envelope
+		this.envelope.setADSR(0.001, 0.5, 0.05, 0.1);           // sets the attackTime, decayTime, sustainLevel, releaseTime
+		this.note = Math.round(random(0, scaleArray.length));   // selects a random MIDI note from the scaleArray array
+		this.envelope.setRange(0.01, 0);                        // sets the volume range for the envelope
+		this.osc.amp(this.envelope);                            // allows the oscillator to use the amplitude in this.envelope
+		this.freqValue = midiToFreq(scaleArray[this.note]);     // convert our MIDI note to a frequency value for the oscillator
+		this.osc.freq(this.freqValue);                          // set the oscillator frequency
 		this.osc.start();
 		
 	}
