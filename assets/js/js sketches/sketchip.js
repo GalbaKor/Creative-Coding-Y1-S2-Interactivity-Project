@@ -4,8 +4,7 @@ var particles = [];  //array of objects
 var attractors = [];  // array of objects
 // Sounds //
 
-// var scaleArray = [60, 62, 64, 67, 71, 72, 74, 76, 77]; //array of MIDI note numbers: C 60, D 62, E 64, G 67, 71 B, 72 C, 74 D, 76 E, 77 F
-var scaleArray = [62, 64, 66, 67, 69, 71, 73, 74]; // D major scale: D 62, E 64, F# 66, G 67, A 69, B 71, C# 73, D 74
+var scaleArray = [62, 64, 66, 67, 69, 71, 73, 74]; // D major scale in midi: D 62, E 64, F# 66, G 67, A 69, B 71, C# 73, D 74
 var waveArray = ['sine','square','sawtooth','triangle']; //sound wave sources
 var reverb; // reverb effect
 
@@ -25,8 +24,8 @@ function add() {                                            // add function - in
   pipes.push(plusone);                                      // pushes the new Pipe class into the pipes array.
 }
 function subtract() {                                       // subtract funtion - removes the latest addition to the array with pop
-    pipes.pop();
-    if(pipes.length >= 1){                                   // if the number of objects is above 0, play the pop sound. This prevents the pop sound from occuring if nothing is there to remove
+    if(pipes.length > 0){   
+      pipes.pop();                                // if the number of objects is above 0, play the pop sound. This prevents the pop sound from occuring if nothing is there to remove
       popSound.play(); 
       var plusatt = new Attractor(random(width), random(height));
       attractors.push(plusatt); 
@@ -124,7 +123,7 @@ class Pipe {
 		this.r = 10;   // radius of 10
         this.vel = createVector(random(0.5,1),random(0.5,1)); /* to get x or y, do this.vel.x or this.vel.y */
         this.acc = createVector(0,0);   
-        this.mass = 2;  // mass of 2
+        this.mass = 1;  // mass of 1
     }
   
     contains(px, py) {        // my contains function to check if the circle contains mouse
@@ -251,7 +250,7 @@ class Particle {
 	
 	constructor(startX, startY){
     // vector position and forces
-		this.mass = 1;
+		this.mass = 100;
 		this.r = 1;
 		this.pos = createVector(startX, startY); // allows user to choose start position
 		this.vel = createVector(random(0.01,0.1), random(0.01,0.1));  // creates a vector with a random speed
