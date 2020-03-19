@@ -1,9 +1,12 @@
-var pipes = []; // array of objects
-var popSound; // initialises pop sound variable
-var particles = [];  //array of objects
-var attractors = [];  // array of objects
+var pipes = [];                                             // array of objects
+var popSound;                                               // initialises pop sound variable
+var particles = [];                                         // array of objects
+var attractors = [];                                        // array of objects
 var timer = 10;
-var retimer = 10;
+var waveArrays = ['sine','square','triangle','sawtooth'];   // sound wave sources
+var infoB;                                                   // information button
+var infoT = 10;                                             // timer for information button
+
 // Sounds //
 
 /*function chords() {
@@ -33,7 +36,11 @@ function setup() {
   var cnv = createCanvas(windowWidth/1.75, windowHeight/1.75);    // puts canvas function as a variable.
   cnv.style('display', 'block');                                  // prevents scrollbars from appearing when size changes.
   cnv.parent('canvasholder');                                     // designates 'canvasholder' as the parent for the canvas. Canvasholder is an id in the html file
+  infoB = createButton("Info");
+  infoB.position(width-60, height-height+10);
+  infoB.mousePressed(infoT);
   noFill();                                                       // no fill for objects created
+  waveArray = random(waveArrays);                                 // starts the canvas with a random waveform
   reset();                                                        // calls the reset function below 
   
 }
@@ -61,10 +68,7 @@ function subtract() {                                       // subtract funtion 
     
   }
 function reset() {                                          // a reset function that checks if there are more than 1 of any of my created objects, then removes one.
-    waveArrays = ['sine','square','triangle','sawtooth'];            //sound wave sources
-    waveArray = random(waveArrays);
-    print(waveArray);
-
+    
     for (let i = pipes.length; i >= 0; i --){               // This continues until there are 0 objects left.
         if (pipes.length >= 0){
         pipes.pop();
@@ -103,7 +107,6 @@ function mousePressed() {                                   // if mouse is press
       var pluspart = new Particle(mouseX, mouseY);          // same as plusatt but for particles rather than attractors and 3 particles are created, rather than 1.
       fill(pred, pgreen, pblue);
       particles.push(pluspart);
-    
     }
   }
 }
@@ -123,16 +126,22 @@ function retimerCountdown() {
   }
 }
 
-function draw() {
-  background(0);             // canvas colour is black
+function infoCircle(){
+  noFill(); strokeWeight(3); stroke(255,0,0);
+  ellipse(height/16, width/18, 50);
+}
 
+function draw() {
+  background(0);                                // canvas colour is black
+  strokeWeight(1); stroke(255);
   /* information menu: if the timer is below 10 seconds, it displays the info. If it's above 10 seconds, the info disappears and */
   textAlign(CENTER, CENTER);                    // text is aligned in the center of the screen, white fill, 24 size.
   fill(255);
   textSize(24);
   if (millis() <= 10000){                       // if the time in milliseconds is less than the given value, shows the text below
-    text('Press the add button to add a ball. \nClick the ball itself or the subtract button to pop it.\n\nWaveforms:\n1 = Sawtooth\n2 = Sine\n3= Square\n4 = Triangle\n\npress "q" to show this again.',0, height/4, width);
-    text(timer, 0, height/1.35, width);
+    text('Press the add button to add a ball. \nClick the ball itself or the subtract button to pop it.\n\nWaveforms:\n1 = Sawtooth\n2 = Sine\n3= Square\n4 = Triangle\n\npress "Q" to show this again.',0, height/4, width);
+    text(timer, height/16, width/18);
+    infoCircle();
   }
   if (frameCount % 60 == 0 && timer > 0) {      // if the frameCount is divisible by 60, then a second has passed. it will stop at 0 (https://editor.p5js.org/marynotari/sketches/S1T2ZTMp-)
     timer --;                         
@@ -140,19 +149,34 @@ function draw() {
   if (millis() >= 10000){
   textAlign(CENTER, BOTTOM);                    // aligns text at the center and bottom of the canvas
   text(waveArray, 0, height/1.05, width);       // puts the current waveform as text near the bottom of the canvas
+
   }
-
-
-  if (key === 'q'){
-    if (retimer > 0){
-      text('Press the add button to add a ball. \nClick the ball itself or the subtract button to pop it.\n\nWaveforms:\n1 = Sawtooth\n2 = Sine\n3= Square\n4 = Triangle\n\npress "q" to show this again.',0, height/4, width);
-      text(retimer, 0, height/1.35, width);
-      if (frameCount % 60 == 0 && retimer > 0) {      // if the frameCount is divisible by 60, then a second has passed. it will stop at 0 (https://editor.p5js.org/marynotari/sketches/S1T2ZTMp-)
-        retimer --;                         
+  if (keyIsDown(SHIFT)){                        // if SHIFT is held down, display text.
+    text('Press the add button to add a ball. \nClick the ball itself or the subtract button to pop it.\n\nWaveforms:\n1 = Sawtooth\n2 = Sine\n3= Square\n4 = Triangle\n\nhold "SHIFT" to show this again.',0, height/4, width);
+  }
+  /* I tried to make an if statement that would begin a 10 second timer after a button was pressed, instead of the keyIsDown function above. However, I couldn't get it to work
+  so had to settle for the above solution.
+  if (keyCode === 'q'){
+    infoT = 10;
+    setInterval(function() {
+      if (infoT > 0) {
+        infoT--;
+      }
+    }, 1000);
+    if (infoT > 0 && infoT < 10){
+      text('Press the add button to add a ball. \nClick the ball itself or the subtract button to pop it.\n\nWaveforms:\n1 = Sawtooth\n2 = Sine\n3= Square\n4 = Triangle\n\npress "Q" to show this again.',0, height/4, width);
+      text(infoT, height-height + 30, width-width + 50);
+      infoCircle();                  
       }
     }
-  }
+  */
 
+  if (key === '1'){waveArray = 'sawtooth';}
+  if (key === '2'){waveArray = 'sine';}
+  if (key === '3'){waveArray = 'square';}
+  if (key === '4'){waveArray = 'triangle';}    
+ 
+  
   /* move and display all the objects */
   for (var i = 0; i < pipes.length; i++) {                  // if i is less than the array length, add one.
     pipes[i].update();                                      // calls the update, checkEdges and display functions for everything in the pipes array.
