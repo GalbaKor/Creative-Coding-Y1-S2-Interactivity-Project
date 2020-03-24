@@ -63,8 +63,6 @@ function subtract() {                                       // subtract funtion 
       var pluspart = new Particle(random(width), random(height));     // pluspart is a variable that adds a new Particle to the canvas at a random position on the canvas
       fill(pred, pgreen, pblue);                                      // fill with the random rgb values from above
       particles.push(pluspart);
-      particles.push(pluspart);
-      particles.push(pluspart);
     }
 
     
