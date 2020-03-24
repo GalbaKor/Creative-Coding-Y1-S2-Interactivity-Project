@@ -44,9 +44,11 @@ function setup() {
   reset();                                                        // calls the reset function below 
   
 }
-
+function information() {                                    // information function that creates an alert on button press
+  alert('Press the add button to add a ball. \nClick the ball itself or the subtract button to pop it.\n\nWaveforms:\n1 = Sawtooth\n2 = Sine\n3= Square\n4 = Triangle\n\npress "SHIFT" or click the information button to show this again.',0, height/4, width);
+}
 function add() {                                            // add function - initiates a variable called plusone.
-  var plusone = new Pipe(0,0);                                 // plusone adds a new Pipe class.
+  var plusone = new Pipe(0,0);                              // plusone adds a new Pipe class.
   pipes.push(plusone);                                      // pushes the new Pipe class into the pipes array.
 }
 function subtract() {                                       // subtract funtion - removes the latest addition to the array with pop
@@ -115,8 +117,8 @@ function windowResized() {                                  // when window is re
   resizeCanvas(windowWidth/1.75, windowHeight/1.75);        // canvas size is the same as the width and height / 1.75  -  keeps the canvas smaller than the window.
 }
 
-function retimerCountdown() {
-  setInterval(function() {
+/*function retimerCountdown() {                             // attempt to make a reseting timer on a keypress for information. Replaced by alert button
+  setInterval(function() {                                  // sets an interval of 1000 milliseconds, if timer is above 0 it goes down by 1000
     if (retimer > 0) {
       retimer--;
     }
@@ -124,11 +126,11 @@ function retimerCountdown() {
   if (retimer == 0){
     retimer == 10;
   }
-}
+}*/
 
-function infoCircle(){
+function infoCircle(){                                      // ellipse at middle top of the screen
   noFill(); strokeWeight(3); stroke(255,0,0);
-  ellipse(height/16, width/18, 50);
+  ellipse(width/2, height/10, 30, 30);
 }
 
 function draw() {
@@ -137,10 +139,10 @@ function draw() {
   /* information menu: if the timer is below 10 seconds, it displays the info. If it's above 10 seconds, the info disappears and */
   textAlign(CENTER, CENTER);                    // text is aligned in the center of the screen, white fill, 24 size.
   fill(255);
-  textSize(24);
+  textSize(18);
   if (millis() <= 10000){                       // if the time in milliseconds is less than the given value, shows the text below
-    text('Press the add button to add a ball. \nClick the ball itself or the subtract button to pop it.\n\nWaveforms:\n1 = Sawtooth\n2 = Sine\n3= Square\n4 = Triangle\n\npress "Q" to show this again.',0, height/4, width);
-    text(timer, height/16, width/18);
+    text('Press the add button to add a ball. \nClick the ball itself or the subtract button to pop it.\n\nWaveforms:\n1 = Sawtooth\n2 = Sine\n3= Square\n4 = Triangle\n\npress "SHIFT" or click the information button to show this again.',0, height/4, width);
+    text(timer, width/2, height/10);
     infoCircle();
   }
   if (frameCount % 60 == 0 && timer > 0) {      // if the frameCount is divisible by 60, then a second has passed. it will stop at 0 (https://editor.p5js.org/marynotari/sketches/S1T2ZTMp-)
@@ -151,9 +153,11 @@ function draw() {
   text(waveArray, 0, height/1.05, width);       // puts the current waveform as text near the bottom of the canvas
 
   }
+  
   if (keyIsDown(SHIFT)){                        // if SHIFT is held down, display text.
-    text('Press the add button to add a ball. \nClick the ball itself or the subtract button to pop it.\n\nWaveforms:\n1 = Sawtooth\n2 = Sine\n3= Square\n4 = Triangle\n\nhold "SHIFT" to show this again.',0, height/4, width);
+    alert('Press the add button to add a ball. \nClick the ball itself or the subtract button to pop it.\n\nWaveforms:\n1 = Sawtooth\n2 = Sine\n3= Square\n4 = Triangle\n\npress "SHIFT" or click the information button to show this again.',0, height/4, width);
   }
+
   /* I tried to make an if statement that would begin a 10 second timer after a button was pressed, instead of the keyIsDown function above. However, I couldn't get it to work
   so had to settle for the above solution.
   if (keyCode === 'q'){
@@ -171,7 +175,7 @@ function draw() {
     }
   */
 
-  if (key === '1'){waveArray = 'sawtooth';}
+  if (key === '1'){waveArray = 'sawtooth';}                 // series of 4 keyswitches, if 1 is pressed, waveArray becomes sawtooth. 2 for sine, 3 for square and 4 for triangle.
   if (key === '2'){waveArray = 'sine';}
   if (key === '3'){waveArray = 'square';}
   if (key === '4'){waveArray = 'triangle';}    
@@ -196,7 +200,7 @@ function draw() {
     }
     for (let i = 0; i < particles.length; i++) {
       var force = attractors[j].calculateAttraction(particles[i]);
-      particles[i].applyForce(force);
+      particles[i].applyForce(force);                           // calls the update, checkEdges, applyForce and display functions for everything in the particles array.
       particles[i].update();
       particles[i].display();
       particles[i].checkEdges();
@@ -356,16 +360,16 @@ class Particle {  /* particle class */
 	} 
 
 	update() {
-		this.vel.add(this.acc);
+		this.vel.add(this.acc);                                  // updates the new velocity, position and acceleration by add the current acceleration and velocity to velocity and position.
 		this.pos.add(this.vel);
 		this.acc.set(0, 0);
 	}
 
-	display() {
+	display() {                                                // changes stroke colour to be the pred, pgreen and pblue variables. Stroke weight of 2, black fill
 		stroke(pred, pgreen, pblue);
 		strokeWeight(2);
 		fill(255);
-    ellipse(this.pos.x, this.pos.y,this.r,this.r);
+    ellipse(this.pos.x, this.pos.y,this.r,this.r);          // displays at current position
 	}
 
 	checkEdges() {      // same as pipe class

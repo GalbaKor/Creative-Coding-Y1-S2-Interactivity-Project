@@ -173,33 +173,39 @@ button {
     letter-spacing: 0rem !important;
     text-transform: none !important;
 }
+#information {
+  background-color: rgb(223, 132, 215);
+  grid-row: 3;
+  grid-column-start: 6;
+  grid-column-end: 8;
+}
 #addition {
     background-color: #4CAF50;
-    grid-row: 4;
+    grid-row: 5;
     grid-column-start: 3;
     grid-column-end: 6;
 }
 #reseting {
   background-color: grey;
-  grid-row: 4;
+  grid-row: 5;
   grid-column-start: 6;
   grid-column-end: 8;
 }
 #subtraction {
     background-color: #f44336;
-    grid-row: 4;
+    grid-row: 5;
     grid-column-start: 8;
     grid-column-end: 11;
 }
 #canvasholder {
-    grid-row: 3;
+    grid-row: 4;
     grid-column-start: 4;
     grid-column-end: 10;
 }
 
 
 #slidercontainer{
-    grid-row: 3;
+    grid-row: 4;
     grid-column-start: 1;
     grid-column-end: 3;
 
@@ -291,7 +297,7 @@ button {
 
   @media only screen and (max-width: 1440px){  
     #slidercontainer{
-        grid-row: 5;
+        grid-row: 6;
         grid-column-start: 4;
         grid-column-end: 10;
         display: grid;
@@ -322,30 +328,47 @@ button {
   }
   @media only screen and (max-width: 768px){
     #canvasholder {
-      grid-row: 3;
+      grid-row: 4;
       grid-column-start: 1;
       grid-column-end: 13;
   }
+#addition {
+  background-color: #4CAF50;
+  grid-row: 5;
+  grid-column-start: 4;
+  grid-column-end: 6;
+}
+#reseting {
+  grid-row: 6;
+  grid-column-start: 6;
+  grid-column-end: 8;
+}
+#subtraction {
+    background-color: #f44336;
+    grid-row: 5;
+    grid-column-start: 8;
+    grid-column-end: 10;
+}
   }
   @media only screen and (max-width: 425px){
     #slidercontainer{
-      grid-row: 6;
+      grid-row: 7;
       width: 100%;
     }
     #addition {
         background-color: #4CAF50;
-        grid-row: 4;
+        grid-row: 5;
         grid-column-start: 2;
         grid-column-end: 5;
     }
     #reseting {
-      grid-row: 5;
+      grid-row: 6;
       grid-column-start: 6;
       grid-column-end: 8;
     }
     #subtraction {
         background-color: #f44336;
-        grid-row: 4;
+        grid-row: 5;
         grid-column-start: 9;
         grid-column-end: 11;
     }
@@ -354,23 +377,23 @@ button {
 
   @media only screen and (max-width: 380px){
     #slidercontainer{
-      grid-row: 7;
+      grid-row: 8;
       width: 100%;
     }
     #addition {
         background-color: #4CAF50;
-        grid-row: 4;
+        grid-row: 5;
         grid-column-start: 1;
         grid-column-end: 13;
     }
     #reseting {
-      grid-row: 6;
+      grid-row: 7;
       grid-column-start: 1;
       grid-column-end: 13;
     }
     #subtraction {
         background-color: #f44336;
-        grid-row: 5;
+        grid-row: 6;
         grid-column-start: 1;
       grid-column-end: 13;
 
